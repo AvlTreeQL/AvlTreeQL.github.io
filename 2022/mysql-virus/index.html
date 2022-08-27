@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"avltree.cn","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="代码和我有一个能跑就行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库中勒索病毒后的恢复">
+<meta property="og:url" content="http://avltree.cn/2022/mysql-virus/index.html">
+<meta property="og:site_name" content="The Blog of QL">
+<meta property="og:description" content="代码和我有一个能跑就行">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://avltree.cn/2022/mysql-virus/post-banner.png">
+<meta property="article:published_time" content="2022-01-12T10:50:23.000Z">
+<meta property="article:modified_time" content="2022-01-12T13:29:49.713Z">
+<meta property="article:author" content="AvlTree">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="Virus">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://avltree.cn/2022/mysql-virus/post-banner.png">
+
+
+<link rel="canonical" href="http://avltree.cn/2022/mysql-virus/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://avltree.cn/2022/mysql-virus/","path":"2022/mysql-virus/","title":"数据库中勒索病毒后的恢复"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>数据库中勒索病毒后的恢复 | The Blog of QL</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">The Blog of QL</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">人一我百，人十我万！追逐青春的<br>梦想，怀着自信的心，永不放弃！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-calendar-alt fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">数据库远程连接失败</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E6%AF%92%E7%8E%B0%E8%B1%A1"><span class="nav-number">1.1.</span> <span class="nav-text">中毒现象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="nav-number">1.2.</span> <span class="nav-text">查看访问权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E6%B7%BB%E5%8A%A0%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="nav-number">1.3.</span> <span class="nav-text">手动添加访问权限</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">勒索病毒</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BF%E9%97%AE"><span class="nav-number">2.1.</span> <span class="nav-text">数据库访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8B%92%E7%B4%A2%E4%BF%A1%E6%81%AF%E5%85%B7%E4%BD%93%E5%86%85%E5%AE%B9"><span class="nav-number">2.2.</span> <span class="nav-text">勒索信息具体内容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">数据库恢复</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Bbinlog%E6%96%87%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">查看binlog文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8binlog%E6%81%A2%E5%A4%8D%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.2.</span> <span class="nav-text">利用binlog恢复数据库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">病毒清理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95"><span class="nav-number">4.1.</span> <span class="nav-text">查看命令行历史记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E6%B8%85%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text">病毒清理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E6%AF%92%E5%8E%9F%E5%9B%A0"><span class="nav-number">4.3.</span> <span class="nav-text">中毒原因</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">5.</span> <span class="nav-text">结语</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="AvlTree"
+      src="/images/header.png">
+  <p class="site-author-name" itemprop="name">AvlTree</p>
+  <div class="site-description" itemprop="description">欲戴王冠，必承其重</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://google.com/" title="https:&#x2F;&#x2F;google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://baidu.com/" title="https:&#x2F;&#x2F;baidu.com" rel="noopener" target="_blank">Baidu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bilibili.com/" title="https:&#x2F;&#x2F;bilibili.com" rel="noopener" target="_blank">Bilibili</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    
+    <div class="post-gallery-image">
+      <img src="/2022/mysql-virus/post-banner.png" itemprop="contentUrl">
+    </div>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://avltree.cn/2022/mysql-virus/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.png">
+      <meta itemprop="name" content="AvlTree">
+      <meta itemprop="description" content="欲戴王冠，必承其重">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of QL">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库中勒索病毒后的恢复
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-12 18:50:23" itemprop="dateCreated datePublished" datetime="2022-01-12T18:50:23+08:00">2022-01-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">开发</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description"><center> 代码和我有一个能跑就行 </center></div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1>数据库远程连接失败</h1>
+<h2 id="中毒现象">中毒现象</h2>
+<p>一大早接到老师电话，说网站打不开了，让我赶紧修下<br>
+起初还没当回事，想着容器重启一下就好了<br>
+看到报错信息，数据库突然连不上了</p>
+<img src="01.png" width="80%">
+<h2 id="查看访问权限">查看访问权限</h2>
+<p>正常的用户表应该有 “% root” 分别对应 “host user” 这一行的，代表可以远程连接，但是这里没有了<br>
+<img src="02.png" width="80%"></p>
+<h2 id="手动添加访问权限">手动添加访问权限</h2>
+<p>添加访问权限后，可以正常访问了<br>
+<img src="03.png" width="80%"></p>
+<h1>勒索病毒</h1>
+<h2 id="数据库访问">数据库访问</h2>
+<p>登录MySQL一看，11个数据库每个库里只有一张README表，顿时后背一凉，难道是我docker容器重启了一下，数据库是直接恢复出厂设置了不成!!!</p>
+<img src="04.png" width="80%">
+<h2 id="勒索信息具体内容">勒索信息具体内容</h2>
+<p>以下数据库已被删除：pzc_activity, pzc_company_info, pzc_customer_info, pzc_foundation, pzc_notice_ws, pzc_order, pzc_partner_info, pzc_pay, pzc_product, pzc_supply_info, pzcauth。 我们有完整的备份。 要恢复它，您必须向我们的比特币地址bc1q467n2kr64fakwdxy436r4mdtam44z966lfz6dc支付0.0095比特币（BTC）。 如果您需要证明，请通过以下电子邮件与我们联系。 <a href="mailto:zhen5@tutanota.com">zhen5@tutanota.com</a> 。 任何与付款无关的邮件都将被忽略！</p>
+<h1>数据库恢复</h1>
+<h2 id="查看binlog文件">查看binlog文件</h2>
+<p>docker的mysql容器中的binlog文件在/var/lib/mysql目录<br>
+看到binlog文件还在，顿时松了一口气，应该还是能恢复的<br>
+<s>不过如果是我写的病毒，一定会把binlog删了，不给恢复的机会</s></p>
+<img src="05.png" width="80%"> 
+<h2 id="利用binlog恢复数据库">利用binlog恢复数据库</h2>
+<p>这里设置了恢复的时间段是&quot;2021-10-01 - 2022-01-10&quot;<br>
+想着病毒应该是在1月11日删除了数据库，不能把删除的命令一起执行，就恢复到10号的数据</p>
+<pre><code class="language-shell">/usr/bin/mysqlbinlog --no-defaults --start-datetime='2021-10-01 00:00:00' --stop-datetime='2022-01-10 00:00:00' binlog.000002 binlog.000003 binlog.000004 | mysql -uroot -p
+</code></pre>
+<p>–no-defaults：读取没有选项的文件<br>
+–start-datetime：数据库的起始时间<br>
+–stop-datetime： 数据库的终止的时间<br>
+master-bin.000001等：要恢复的binlog文件<br>
+mysql -u -p：数据库</p>
+<p>到此数据库就算恢复完了!</p>
+<h1>病毒清理</h1>
+<h2 id="查看命令行历史记录">查看命令行历史记录</h2>
+<p>看到有同学想用服务器(ubuntu系统)爬取其他网站的一些数据<br>
+看到第一行，想用pip安装yum，就感觉不太妙，想必对Ubuntu、Centos不太了解</p>
+<pre><code class="language-shell">pip install yum
+</code></pre>
+<p>后面是安装了Python环境(给勒索病毒建立温床)<br>
+下载了不明来源的爬虫代码在服务器上跑</p>
+<h2 id="病毒清理">病毒清理</h2>
+<ul>
+<li>删除了服务器上的病毒文件</li>
+<li>修改了root账户密码</li>
+<li>修改了MySQL密码</li>
+<li>关闭了3306端口</li>
+<li>删除了Python环境</li>
+</ul>
+<h2 id="中毒原因">中毒原因</h2>
+<ul>
+<li>3306端口不应对外开放</li>
+<li>数据库不应该使用弱密码</li>
+<li>root权限不应随便开放</li>
+<li>不应下载来路不明的代码文件</li>
+<li>若无必要不要安装Python(Linux病毒大多是Python写的)</li>
+</ul>
+<h1>结语</h1>
+<p>忙活了几个小时，重新把jar包跑起来，后面一切正常</p>
+<img src="06.png" width="80%"> 
+这是那位同学表达歉意送的奶茶
+<h1>Reference</h1>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/YCcc/p/10825870.html">Mysql通过binlog日志恢复数据</a><br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/Nino_sama/article/details/117200086">记一次MySQL被攻击勒索比特币的解决过程</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+              <a href="/tags/Virus/" rel="tag"># Virus</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/graphormer/" rel="prev" title="Graphormer模型（KDD Cup 2021）">
+                  <i class="fa fa-chevron-left"></i> Graphormer模型（KDD Cup 2021）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/dichotomy/" rel="next" title="二分">
+                  二分 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AvlTree</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

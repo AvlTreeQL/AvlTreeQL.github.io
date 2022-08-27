@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"avltree.cn","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="记一次获取网易云音乐外链的步骤">
+<meta property="og:type" content="article">
+<meta property="og:title" content="获取网易云音乐外链">
+<meta property="og:url" content="http://avltree.cn/2018/get-music-link/index.html">
+<meta property="og:site_name" content="The Blog of QL">
+<meta property="og:description" content="记一次获取网易云音乐外链的步骤">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://avltree.cn/2018/get-music-link/post-banner.png">
+<meta property="article:published_time" content="2018-12-11T17:36:23.000Z">
+<meta property="article:modified_time" content="2021-12-03T08:17:59.275Z">
+<meta property="article:author" content="AvlTree">
+<meta property="article:tag" content="Trick">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://avltree.cn/2018/get-music-link/post-banner.png">
+
+
+<link rel="canonical" href="http://avltree.cn/2018/get-music-link/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://avltree.cn/2018/get-music-link/","path":"2018/get-music-link/","title":"获取网易云音乐外链"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>获取网易云音乐外链 | The Blog of QL</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">The Blog of QL</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">人一我百，人十我万！追逐青春的<br>梦想，怀着自信的心，永不放弃！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-calendar-alt fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">获取音乐外链的作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">如何获取音乐外链</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%96%E5%85%88%E6%89%93%E5%BC%80%E4%B8%8B%E9%9D%A2%E7%9A%84%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E7%BD%91%E7%AB%99"><span class="nav-number">3.0.1.</span> <span class="nav-text">首先打开下面的网易云音乐网站</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%BE%E5%88%B0%E4%BD%A0%E6%83%B3%E8%A6%81%E7%9A%84%E9%9F%B3%E4%B9%90%EF%BC%8C%E4%BE%8B%E5%A6%82"><span class="nav-number">3.0.2.</span> <span class="nav-text">找到你想要的音乐，例如:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E4%B8%8A%E9%9D%A2%E9%93%BE%E6%8E%A5%E6%9C%80%E5%90%8E%E7%9A%84id%EF%BC%8C%E6%94%BE%E5%85%A5%E4%B8%8B%E9%9D%A2%E9%93%BE%E6%8E%A5%E7%9A%84%E4%B8%8B%E5%88%92%E7%BA%BF%E4%B8%AD"><span class="nav-number">3.0.3.</span> <span class="nav-text">复制上面链接最后的id，放入下面链接的下划线中</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="AvlTree"
+      src="/images/header.png">
+  <p class="site-author-name" itemprop="name">AvlTree</p>
+  <div class="site-description" itemprop="description">欲戴王冠，必承其重</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://google.com/" title="https:&#x2F;&#x2F;google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://baidu.com/" title="https:&#x2F;&#x2F;baidu.com" rel="noopener" target="_blank">Baidu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bilibili.com/" title="https:&#x2F;&#x2F;bilibili.com" rel="noopener" target="_blank">Bilibili</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    
+    <div class="post-gallery-image">
+      <img src="/2018/get-music-link/post-banner.png" itemprop="contentUrl">
+    </div>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://avltree.cn/2018/get-music-link/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.png">
+      <meta itemprop="name" content="AvlTree">
+      <meta itemprop="description" content="欲戴王冠，必承其重">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of QL">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          获取网易云音乐外链
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-12-12 01:36:23" itemprop="dateCreated datePublished" datetime="2018-12-12T01:36:23+08:00">2018-12-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Trick/" itemprop="url" rel="index"><span itemprop="name">Trick</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description"><center> 记一次获取网易云音乐外链的步骤 </center></div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1>获取音乐外链的作用</h1>
+<ul>
+<li>音乐外链是可以直接用来下载音乐的，常见结尾是 <a target="_blank" rel="noopener" href="http://xxxx.mp3">http://xxxx.mp3</a></li>
+<li>音乐外链可于在线播放，常用于博客网页播放器中</li>
+</ul>
+<h1>如何获取音乐外链</h1>
+<ul>
+<li>网上有很多第三方音乐外链获取网站，但是速度很慢</li>
+<li>使用各大云平台的对象存储服务</li>
+<li>这里我使用的网易云音乐的音乐外链，相对来说速度快很多</li>
+</ul>
+<h1>使用方法</h1>
+<h3 id="首先打开下面的网易云音乐网站">首先打开下面的网易云音乐网站</h3>
+<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;music.163.com&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="找到你想要的音乐，例如">找到你想要的音乐，例如:</h3>
+<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;song?id&#x3D;28815250<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="复制上面链接最后的id，放入下面链接的下划线中">复制上面链接最后的id，放入下面链接的下划线中</h3>
+<pre class="line-numbers language-none"><code class="language-none">http:&#x2F;&#x2F;music.163.com&#x2F;song&#x2F;media&#x2F;outer&#x2F;url?id&#x3D;____.mp3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Trick/" rel="tag"># Trick</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/use-bat/" rel="prev" title="bat——带语法高亮的cat天使">
+                  <i class="fa fa-chevron-left"></i> bat——带语法高亮的cat天使
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/cccc-2019/" rel="next" title="2019中国高校计算机大赛——天梯赛决赛（北京）">
+                  2019中国高校计算机大赛——天梯赛决赛（北京） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AvlTree</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
